@@ -1,0 +1,43 @@
+:root { --fondo: #f2f1ed; --tinta: #161616; --suave: #777671; --linea: #d9d7d0; --tarjeta: #fbfaf7; --acento: #161616; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.contenedor { max-width: 940px; margin: auto; padding: 72px 28px 52px; }
+header { border-bottom: 1px solid var(--tinta); padding-bottom: 34px; margin-bottom: 28px; }
+h1, h2, p { margin-top: 0; }
+h1 { max-width: 680px; font-size: clamp(2.7rem, 7vw, 5.6rem); font-weight: 500; letter-spacing: -.075em; line-height: .93; margin: 24px 0 20px; }
+h2 { font-size: 1.1rem; font-weight: 650; letter-spacing: -.025em; margin-bottom: 4px; }
+.marca { font-family: Georgia, "Times New Roman", serif; font-size: 1.05rem; font-style: italic; letter-spacing: .01em; margin: 0; }
+.etiqueta { color: var(--suave); font-size: .66rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 9px; }
+.intro, .importar p { color: var(--suave); line-height: 1.55; }
+.intro { max-width: 440px; margin-bottom: 0; }
+.importar, .panel, .resumen article { background: var(--tarjeta); border: 1px solid var(--linea); }
+.importar { padding: 22px 24px; display: flex; gap: 22px; align-items: center; justify-content: space-between; margin-bottom: 9px; }
+.importar p { margin-bottom: 0; max-width: 590px; font-size: .88rem; }
+input[type=file] { position: absolute; opacity: 0; pointer-events: none; }
+.boton, button { background: var(--acento); color: white; border: 1px solid var(--acento); border-radius: 0; padding: 10px 14px; font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.boton:hover, button:hover { background: transparent; color: var(--tinta); }
+.mensaje { min-height: 1.5em; color: var(--suave); font-size: .82rem; margin: 10px 0 16px; }
+.resumen { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--tinta); border-bottom: 1px solid var(--tinta); margin: 20px 0 44px; }
+.resumen article { padding: 20px 14px; border: 0; border-right: 1px solid var(--linea); background: transparent; }
+.resumen article:first-child { padding-left: 0; }
+.resumen article:last-child { border-right: 0; }
+.resumen span { display: block; color: var(--suave); font-size: .7rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .07em; }
+.resumen strong { font-size: 1.32rem; font-weight: 560; letter-spacing: -.045em; }
+.panel { padding: 24px; margin-top: 20px; }
+.titulo-fila { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.secundario { color: var(--suave); background: transparent; border-color: var(--linea); font-size: .75rem; }
+.secundario:hover { border-color: var(--tinta); color: var(--tinta); }
+.semanas { display: grid; grid-template-columns: repeat(8, 1fr); align-items: end; height: 210px; gap: 10px; padding-top: 24px; }
+.semana { min-width: 0; text-align: center; font-size: .68rem; color: var(--suave); }
+.barra-zona { height: 132px; display: flex; align-items: end; margin-bottom: 9px; border-bottom: 1px solid var(--linea); }
+.barra { width: 100%; min-height: 2px; background: var(--tinta); }
+.semana b { color: var(--tinta); display: block; font-size: .72rem; font-weight: 650; margin-bottom: 5px; }
+.tabla-contenedor { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th { color: var(--suave); font-size: .66rem; font-weight: 700; padding: 22px 10px 10px; text-transform: uppercase; letter-spacing: .08em; }
+th:first-child, td:first-child { padding-left: 0; }
+th:last-child, td:last-child { padding-right: 0; }
+td { border-top: 1px solid var(--linea); padding: 14px 10px; font-size: .86rem; }
+.vacio { color: var(--suave); text-align: center; padding: 30px; }
+footer { color: var(--suave); font-family: Georgia, "Times New Roman", serif; font-size: .9rem; font-style: italic; padding: 44px 0 6px; }
+@media (max-width: 700px) { .contenedor { padding: 38px 18px; } header { padding-bottom: 25px; } .importar { align-items: start; flex-direction: column; } .resumen { grid-template-columns: repeat(2, 1fr); margin-bottom: 30px; } .resumen article:nth-child(2) { border-right: 0; } .resumen article:nth-child(n + 3) { border-top: 1px solid var(--linea); } .resumen article:nth-child(3) { padding-left: 0; } .semanas { gap: 5px; } .panel { padding: 16px; } }

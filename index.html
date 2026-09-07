@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pablonio babilonio · Running</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="contenedor">
+      <header>
+        <p class="marca">Pablonio babilonio</p>
+        <h1>Running, sin ruido.</h1>
+        <p class="intro">Un registro personal de kilómetros, ritmo y constancia.</p>
+      </header>
+
+      <section class="importar" aria-labelledby="titulo-importar">
+        <div>
+          <h2 id="titulo-importar">Datos cargados</h2>
+          <p>Este panel incluye las 14 carreras disponibles en tu exportación de Garmin. Puedes añadir un CSV nuevo cuando tengas una exportación más completa.</p>
+        </div>
+        <label class="boton" for="archivo">Actualizar CSV</label>
+        <input id="archivo" type="file" accept=".csv,text/csv" />
+      </section>
+
+      <p id="mensaje" class="mensaje" role="status"></p>
+
+      <section class="resumen" aria-label="Resumen">
+        <article><span>Kilómetros totales</span><strong id="kilometros">0,0 km</strong></article>
+        <article><span>Tiempo total</span><strong id="tiempo">0 h 0 min</strong></article>
+        <article><span>Ritmo medio</span><strong id="ritmo">—</strong></article>
+        <article><span>Sesiones</span><strong id="sesiones">0</strong></article>
+      </section>
+
+      <section class="panel" aria-labelledby="titulo-semanas">
+        <div class="titulo-fila">
+          <div><p class="etiqueta">Últimas ocho semanas</p><h2 id="titulo-semanas">Kilómetros por semana</h2></div>
+          <button id="borrar" class="secundario" type="button">Restablecer datos</button>
+        </div>
+        <div id="semanas" class="semanas"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="titulo-actividades">
+        <div class="titulo-fila"><div><p class="etiqueta">Historial</p><h2 id="titulo-actividades">Carreras recientes</h2></div></div>
+        <div class="tabla-contenedor">
+          <table>
+            <thead><tr><th>Fecha</th><th>Actividad</th><th>Distancia</th><th>Duración</th><th>Ritmo</th></tr></thead>
+            <tbody id="actividades"><tr><td colspan="5" class="vacio">Aún no hay actividades. Importa tu primer CSV.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+      <footer>Hecho para seguir corriendo.</footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+# Exportación original de Garmin: contiene datos personales y no se publica.
+datos/Activities.csv
+
+# Archivos del sistema y del editor.
+.DS_Store
+Thumbs.db
+.vscode/
