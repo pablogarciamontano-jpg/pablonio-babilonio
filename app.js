@@ -20,6 +20,7 @@ const carrerasIniciales = [
 });
 
 const actividades = carrerasIniciales;
+const metaCaliKm = 448;
 
 const formatoTiempo = (total) => {
   const horas = Math.floor(total / 3600); const minutos = Math.round((total % 3600) / 60);
@@ -39,6 +40,37 @@ function inicioSemana(dia) {
   fecha.setDate(fecha.getDate() - diferencia); fecha.setHours(0, 0, 0, 0); return fecha;
 }
 
+function renderizarReto(kmTotales) {
+  const recorridos = Math.min(kmTotales, metaCaliKm);
+  const faltantes = Math.max(metaCaliKm - recorridos, 0);
+  const porcentaje = Math.min((recorridos / metaCaliKm) * 100, 100);
+  const redondearKm = (km) => km.toLocaleString("es-CO", { maximumFractionDigits: 1 });
+  document.querySelector("#recorridos-reto").textContent = `${redondearKm(recorridos)} km`;
+  document.querySelector("#faltantes-reto").textContent = `${redondearKm(faltantes)} km`;
+  document.querySelector("#avance-reto").style.width = `${porcentaje}%`;
+  document.querySelector("#corredor").style.left = `${porcentaje}%`;
+  document.querySelector("#barra-reto").setAttribute("aria-valuenow", recorridos.toFixed(1));
+
+  const inicio = inicioSemana(new Date());
+  const final = new Date(inicio); final.setDate(final.getDate() + 7);
+  const kmSemana = actividades
+    .filter((actividad) => new Date(actividad.fecha) >= inicio && new Date(actividad.fecha) < final)
+    .reduce((suma, actividad) => suma + actividad.distancia, 0);
+  document.querySelector("#semana-reto").textContent = `${redondearKm(kmSemana)} km`;
+
+  const pronostico = document.querySelector("#pronostico-reto");
+  if (!faltantes) {
+    pronostico.textContent = "¡Llegaste a Cali! Reto completado.";
+  } else if (!kmSemana) {
+    pronostico.textContent = "Tu semana está arrancando: registra tu primera carrera y calcularemos cuándo llegas a Cali.";
+  } else {
+    const dias = Math.ceil((faltantes / kmSemana) * 7);
+    const llegada = new Date(); llegada.setDate(llegada.getDate() + dias);
+    const fechaLlegada = llegada.toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
+    pronostico.textContent = `Si mantienes ${redondearKm(kmSemana)} km por semana, llegarías a Cali en unos ${dias} días: ${fechaLlegada}.`;
+  }
+}
+
 function renderizar() {
   actividades.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
   const km = actividades.reduce((suma, actividad) => suma + actividad.distancia, 0);
@@ -47,6 +79,7 @@ function renderizar() {
   document.querySelector("#tiempo").textContent = formatoTiempo(tiempo);
   document.querySelector("#ritmo").textContent = formatoRitmo(km ? tiempo / km : 0);
   document.querySelector("#sesiones").textContent = actividades.length;
+  renderizarReto(km);
   const cuerpo = document.querySelector("#actividades");
   cuerpo.innerHTML = actividades.length ? actividades.slice(0, 12).map((actividad) => `<tr><td>${actividad.fecha ? new Date(actividad.fecha).toLocaleDateString("es-CO") : "—"}</td><td>${actividad.nombre}</td><td>${actividad.distancia.toFixed(2)} km</td><td>${formatoTiempo(actividad.duracion)}</td><td>${formatoRitmo(actividad.ritmo)}</td></tr>`).join("") : '<tr><td colspan="5" class="vacio">Aún no hay actividades. Importa tu primer CSV.</td></tr>';
   const ahora = inicioSemana(new Date());
