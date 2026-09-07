@@ -24,13 +24,13 @@ button:hover { background: transparent; color: var(--tinta); }
 .texto-reto { color: var(--suave); margin: 0 0 22px; }
 .barra-reto { position: relative; height: 20px; background: #e1dfd8; border: 1px solid var(--linea); }
 .avance-reto { width: 0; height: 100%; background: #e6774f; transition: width .45s ease; }
-.corredor { position: absolute; top: 50%; left: 0; font-size: 1.4rem; line-height: 1; transform: translate(-50%, -52%); transition: left .45s ease; }
+.corredor { position: absolute; top: 50%; left: 0; font-size: 1.4rem; line-height: 1; transform: translate(-50%, -52%) scaleX(-1); transition: left .45s ease; }
 .ruta-reto { display: flex; justify-content: space-between; color: var(--suave); font-size: .72rem; margin-top: 8px; }
 .estadisticas-reto { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
-.estadisticas-reto div { border-left: 2px solid #e6774f; padding-left: 10px; }
+.estadisticas-reto div { padding-left: 0; }
 .estadisticas-reto span { display: block; color: var(--suave); font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .estadisticas-reto strong { display: block; font-size: 1.2rem; letter-spacing: -.04em; margin-top: 5px; }
-.pronostico-reto { background: #fff0e8; border-left: 3px solid #e6774f; line-height: 1.45; margin: 26px 0 0; padding: 12px 14px; }
+.pronostico-reto { background: #fff0e8; line-height: 1.45; margin: 26px 0 0; padding: 12px 14px; }
 .titulo-fila { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
 .semanas { display: grid; grid-template-columns: repeat(8, 1fr); align-items: end; height: 210px; gap: 10px; padding-top: 24px; }
 .semana { min-width: 0; text-align: center; font-size: .68rem; color: var(--suave); }
