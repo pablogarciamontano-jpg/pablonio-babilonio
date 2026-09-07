@@ -1,18 +1,3 @@
-const clave = "mi-running-actividades";
-let actividades;
-
-const campo = (fila, candidatos) => {
-  const llaves = Object.keys(fila);
-  const llave = llaves.find((nombre) => candidatos.some((candidato) => nombre.toLowerCase().replace(/[^a-záéíóúñ]/g, "").includes(candidato)));
-  return llave ? fila[llave] : "";
-};
-
-const numero = (valor) => {
-  const limpio = String(valor ?? "").trim().replace(/\s/g, "").replace(",", ".");
-  const resultado = Number.parseFloat(limpio.replace(/[^0-9.-]/g, ""));
-  return Number.isFinite(resultado) ? resultado : 0;
-};
-
 const segundos = (valor) => {
   if (typeof valor === "number") return valor;
   const partes = String(valor ?? "").trim().split(":").map(Number);
@@ -34,8 +19,7 @@ const carrerasIniciales = [
   return { id: `${fecha}-${distancia}-${duracion}-Carrera`, fecha: new Date(fecha).toISOString(), nombre: "Carrera", distancia, duracion, ritmo: duracion / distancia };
 });
 
-const datosGuardados = localStorage.getItem(clave);
-actividades = datosGuardados ? JSON.parse(datosGuardados) : carrerasIniciales;
+const actividades = carrerasIniciales;
 
 const formatoTiempo = (total) => {
   const horas = Math.floor(total / 3600); const minutos = Math.round((total % 3600) / 60);
@@ -49,38 +33,6 @@ const fecha = (valor) => {
   const resultado = new Date(valor);
   return Number.isNaN(resultado) ? null : resultado;
 };
-
-function leerCsv(texto) {
-  const lineas = texto.replace(/^\uFEFF/, "").split(/\r?\n/).filter(Boolean);
-  const separador = lineas[0]?.includes(";") ? ";" : ",";
-  const dividir = (linea) => {
-    const valores = []; let valor = ""; let comillas = false;
-    for (const caracter of linea) {
-      if (caracter === '"') comillas = !comillas;
-      else if (caracter === separador && !comillas) { valores.push(valor.trim()); valor = ""; }
-      else valor += caracter;
-    }
-    valores.push(valor.trim()); return valores.map((item) => item.replace(/^"|"$/g, ""));
-  };
-  const cabeceras = dividir(lineas.shift());
-  return lineas.map(dividir).map((valores) => Object.fromEntries(cabeceras.map((cabecera, i) => [cabecera, valores[i] ?? ""])));
-}
-
-function normalizar(fila) {
-  const distancia = numero(campo(fila, ["distance", "distancia"]));
-  const duracion = segundos(campo(fila, ["duration", "duración", "tiempo", "elapsedtime", "movingtime"]));
-  const fechaTexto = campo(fila, ["date", "fecha", "started"]);
-  const fechaActividad = fecha(fechaTexto);
-  const tipo = campo(fila, ["activitytype", "tipoactividad", "activity", "actividad"]) || "Carrera";
-  return {
-    id: `${fechaTexto}-${distancia}-${duracion}-${tipo}`,
-    fecha: fechaActividad ? fechaActividad.toISOString() : "",
-    nombre: tipo,
-    esCarrera: tipo.toLocaleLowerCase("es").includes("carrera"),
-    distancia, duracion,
-    ritmo: distancia ? duracion / distancia : 0
-  };
-}
 
 function inicioSemana(dia) {
   const fecha = new Date(dia); const diferencia = (fecha.getDay() + 6) % 7;
@@ -104,15 +56,4 @@ function renderizar() {
   document.querySelector("#semanas").innerHTML = semanas.map((semana) => `<div class="semana"><div class="barra-zona"><div class="barra" style="height:${(semana.km / maximo) * 100}%"></div></div><b>${semana.km.toFixed(1)}</b><span>${semana.inicio.toLocaleDateString("es-CO", { day: "2-digit", month: "short" })}</span></div>`).join("");
 }
 
-document.querySelector("#archivo").addEventListener("change", async (evento) => {
-  const archivo = evento.target.files[0]; if (!archivo) return;
-  const filas = leerCsv(await archivo.text());
-  const nuevas = filas.map(normalizar).filter((actividad) => actividad.esCarrera && actividad.distancia > 0 && actividad.duracion > 0);
-  if (!nuevas.length) { document.querySelector("#mensaje").textContent = "No encontré filas con distancia y duración. Envíame una muestra del CSV para adaptarlo."; return; }
-  const idsExistentes = new Set(actividades.map((actividad) => actividad.id));
-  const sinDuplicados = nuevas.filter((actividad) => !idsExistentes.has(actividad.id));
-  actividades = [...actividades, ...sinDuplicados]; localStorage.setItem(clave, JSON.stringify(actividades));
-  document.querySelector("#mensaje").textContent = sinDuplicados.length ? `Se añadieron ${sinDuplicados.length} carreras.` : "Estas carreras ya estaban importadas."; renderizar(); evento.target.value = "";
-});
-document.querySelector("#borrar").addEventListener("click", () => { if (confirm("¿Restablecer las carreras incluidas en la web? Se eliminarán las importaciones adicionales.")) { actividades = [...carrerasIniciales]; localStorage.removeItem(clave); document.querySelector("#mensaje").textContent = "Datos restablecidos."; renderizar(); } });
 renderizar();

@@ -2,7 +2,7 @@
 
 Aplicación local para consultar actividades exportadas desde Garmin Connect.
 
-Las 14 carreras del archivo disponible están integradas en la aplicación y se muestran al abrirla. No hace falta importar nada para ver ese resumen.
+Las 14 carreras del archivo disponible están integradas en la aplicación y se muestran al abrirla. No hay opción para subir archivos: cuando Pablo comparta un CSV, se integrará directamente en la aplicación antes de publicar la actualización.
 
 Los próximos pasos están anotados en [PENDIENTES.md](PENDIENTES.md).
 
@@ -19,14 +19,6 @@ El archivo `.gitignore` evita que `datos/Activities.csv` se suba mediante Git. N
 ## Abrir la aplicación
 
 Haz doble clic en `index.html`. Se abrirá en tu navegador.
-
-## Importar datos de Garmin
-
-1. Exporta tus actividades en formato CSV desde Garmin Connect.
-2. Pulsa **Elegir CSV** en la aplicación y selecciona el archivo.
-3. La aplicación importa solamente las actividades cuyo tipo sea **Carrera** y calcula kilómetros, tiempo, ritmo y volumen semanal.
-
-Los datos quedan guardados solamente en el almacenamiento local del navegador. El botón **Borrar datos** elimina ese almacenamiento.
 
 ## Siguiente mejora
 
